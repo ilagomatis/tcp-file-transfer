@@ -26,4 +26,6 @@ number of bytes.
 */
 unsigned char* getBinaryContent(char* path, int* bytes);
 
+int freeSplitRes(char** splitArray, int size);
+
 #endif /* __STRING_UTILS_H__ */

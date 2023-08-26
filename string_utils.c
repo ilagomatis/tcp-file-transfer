@@ -47,3 +47,20 @@ unsigned char* getBinaryContent(char* path, int* bytes)
     fclose(fd);
     return buffer;
 }
+
+int freeSplitRes(char** splitArray, int size)
+{
+    if(splitArray == NULL)
+        return -1;
+
+    for(int i=0; i<size; i++)
+    {
+        if(splitArray[i] == NULL)
+            return -1;
+
+        free(splitArray[i]);
+    }
+
+    free(splitArray);
+    return 0;
+}
