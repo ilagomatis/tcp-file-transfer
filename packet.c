@@ -1,6 +1,8 @@
 #include "packet.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+
 struct packet* buildPackets(int packetsize, int filesize, int* numPackets)
 {
     int numpackets = 0;
@@ -49,4 +51,21 @@ char* joinPacketSizes(struct message* msg, char *separator)
     }
     strcat(out, "\0");
     return out;
+}
+
+int freeMessage(struct message* msg)
+{
+    if(msg == NULL) 
+        return -1;
+
+    for(int i=0; i<msg->size; i++)
+    {
+        if(msg->packets[i].data == NULL) 
+            return -1;
+
+        free(msg->packets[i].data);
+        msg->packets[i].size = 0;
+    }
+
+    return 0;
 }

@@ -17,4 +17,6 @@ struct message* buildMessage(unsigned char* filebuf, int filesize, int packetsiz
 
 char* joinPacketSizes(struct message* msg, char *separator);
 
+int freeMessage(struct message* msg);
+
 #endif /* __PACKET_H__ */
