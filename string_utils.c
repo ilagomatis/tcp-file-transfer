@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+
 char** split(char *string, char separator, int* size){
     char** words = (char**)malloc(0);
     int numWords = 0;

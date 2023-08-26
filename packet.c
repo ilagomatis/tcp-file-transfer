@@ -67,5 +67,6 @@ int freeMessage(struct message* msg)
         msg->packets[i].size = 0;
     }
 
+    free(msg);
     return 0;
 }
