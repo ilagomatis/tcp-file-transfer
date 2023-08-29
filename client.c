@@ -5,8 +5,8 @@
 
 #define PORT 8080
 #define FILENAME "../string/cat.rgb"
-#define CHUNK 1000
-#define IP "10.64.83.216"
+#define CHUNK 250
+#define IP "127.0.0.1"//"10.64.83.216"
 
 int main(){
     sendfile(IP, PORT, FILENAME, CHUNK);
