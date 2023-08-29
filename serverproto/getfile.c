@@ -20,7 +20,7 @@ int readContent(int socket, char** packetSizes, int numPackets, char* file)
 		int bytes = atoi(packetSizes[i]);
 		unsigned char* buf = (unsigned char*) malloc(sizeof(unsigned char) * bytes);
 		int valread = read(socket, buf, bytes);
-		//printf("Packet %d bytes: %d first char:%u last char:%u\n", i+1, bytes, buf[0], buf[bytes-1]);
+		printf("Packet %d bytes: %d first char:%u last char:%u\n", i+1, bytes, buf[0], buf[bytes-1]);
 		fwrite(buf, bytes, 1, fd);
 		free(buf);
 	}
@@ -41,12 +41,13 @@ int getfile(uint16_t port)
 
     int metadataSize = atoi(firstmsg);
     free(firstmsg);
-
+    printf("metadataSize: %d\n", metadataSize);
     char* metadata = (char*)malloc(metadataSize * sizeof(char));
     valread = read(client, metadata, metadataSize);
 
     int numPackets;
     char** packetSizes = split(metadata, SEPARATOR, &numPackets);
+    printf("%s\n", metadata);
     free(metadata);
     
     readContent(client, packetSizes, numPackets, FILENAME);
