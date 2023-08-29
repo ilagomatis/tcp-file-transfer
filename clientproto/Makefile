@@ -1,2 +1,2 @@
-send_file.o: ../string_utils/string_utils.o ../packet/packet.o ../tcp_client_connect/tcp_client_connect.o
-	gcc -c send_file.c ../string_utils/string_utils.o ../packet/packet.o ../tcp_client_connect/tcp_client_connect.o
+send_file.o: 
+	gcc -c send_file.c 
