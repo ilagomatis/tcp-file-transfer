@@ -8,7 +8,7 @@
 #include <unistd.h>
 
 #define FIRST_MSG_SZ 100
-#define SEPARATOR "-"
+#define SEPARATOR '-'
 #define FILENAME "copy"
 
 int readContent(int socket, char** packetSizes, int numPackets, char* file)
