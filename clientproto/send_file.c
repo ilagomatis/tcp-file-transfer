@@ -5,8 +5,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+
 #define FIRST_MSG_SZ 100
-#define SEPARATOR "&"
+#define SEPARATOR "-"
+
 int sendfile(char* IP, uint16_t port, char* pathtofile, int chunksize){
     int sock;
     int bytes;
@@ -19,6 +21,7 @@ int sendfile(char* IP, uint16_t port, char* pathtofile, int chunksize){
     int metadatasize = strlen(metadata);
     char* firstmessage = (char*)malloc(FIRST_MSG_SZ * sizeof(char));
     sprintf(firstmessage, "%d", metadatasize);
+
     sock = tcp_client_connect(IP, port);
 
     send(sock, firstmessage, FIRST_MSG_SZ, 0);
@@ -30,7 +33,9 @@ int sendfile(char* IP, uint16_t port, char* pathtofile, int chunksize){
     }
 
     // read the response
-    
+
     close_connection(sock);
+    freeMessage(message);
+    free(firstmessage);
     return 0;
 }
