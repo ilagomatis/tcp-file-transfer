@@ -5,7 +5,7 @@
 
 #define PORT 8080
 #define FILENAME "../string/cat.rgb"
-#define CHUNK 500
+#define CHUNK 1000
 #define IP "10.64.83.216"
 
 int main(){

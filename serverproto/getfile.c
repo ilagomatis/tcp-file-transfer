@@ -20,8 +20,9 @@ int readContent(int socket, char** packetSizes, int numPackets, char* file)
 		int bytes = atoi(packetSizes[i]);
 		unsigned char* buf = (unsigned char*) malloc(sizeof(unsigned char) * bytes);
 		int valread = read(socket, buf, bytes);
-		printf("Packet %d bytes: %d first char:%u last char:%u\n", i+1, bytes, buf[0], buf[bytes-1]);
-		fwrite(buf, bytes, 1, fd);
+		//printf("Packet %d bytes: %d first char:%u last char:%u\n", i+1, bytes, buf[0], buf[bytes-1]);
+		printf("Bytes got: %d\n", bytes);
+        fwrite(buf, bytes, 1, fd);
 		free(buf);
 	}
 
@@ -34,17 +35,18 @@ int getfile(uint16_t port)
     int server;
     int valread;
 
-    char* firstmsg = (char*)malloc(FIRST_MSG_SZ * sizeof(char));
+    char* firstmsg = (char*)malloc(FIRST_MSG_SZ * sizeof(char) + 1);
     int client = tcp_server_connect(port, &server); // block until new connection
 
     valread = read(client, firstmsg, FIRST_MSG_SZ);
+    printf("Bytes got: %d\n", FIRST_MSG_SZ);
 
     int metadataSize = atoi(firstmsg);
     free(firstmsg);
     printf("metadataSize: %d\n", metadataSize);
     char* metadata = (char*)malloc(metadataSize * sizeof(char));
     valread = read(client, metadata, metadataSize);
-
+    printf("Bytes got: %d\n", metadataSize);
     int numPackets;
     char** packetSizes = split(metadata, SEPARATOR, &numPackets);
     printf("%s\n", metadata);
