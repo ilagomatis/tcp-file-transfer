@@ -16,9 +16,15 @@ int sendfile(char* IP, uint16_t port, char* pathtofile, int chunksize){
     unsigned char* content = getBinaryContent(pathtofile, &bytes);
     struct message* message = buildMessage(content, bytes, chunksize);
     free(content);
+    for(int i=0; i<message->size; i++)
+    {
+        printf("packet %d: %d bytes\n", i+1, message->packets[i].size);
+    }
     
     char* metadata = joinPacketSizes(message, SEPARATOR);
     int metadatasize = strlen(metadata);
+    printf("metadataSize: %d\n", metadatasize);
+    printf("%s\n", metadata);
     char* firstmessage = (char*)malloc(FIRST_MSG_SZ * sizeof(char));
     sprintf(firstmessage, "%d", metadatasize);
 

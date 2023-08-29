@@ -36,9 +36,27 @@ struct message* buildMessage(unsigned char* filebuf, int filesize, int packetsiz
     return msg;
 }
 
+int getMetadataSize(struct message msg)
+{
+    char* intbuf = (char*)malloc(10 * sizeof(char));
+    int len = 0;
+    for(int i=0; i<msg.size; i++)
+    {
+        memset(intbuf, '\0', 10);
+        sprintf(intbuf, "%d", msg.packets[i].size);
+        int numberLen = strlen(intbuf);
+        len += numberLen;
+        len++;
+    }
+    free(intbuf);
+    printf("len: %d\n", --len);
+    return (len - 1);
+}
+
 char* joinPacketSizes(struct message* msg, char *separator)
 {
-    char* out = (char*) malloc(sizeof(char) * 1000);
+    int len = getMetadataSize(*msg);
+    char* out = (char*) malloc(sizeof(char) * len);
     char* intbuf = (char*) malloc(sizeof(char) * 10);
     sprintf(intbuf, "%d", msg->packets[0].size);
     strcpy(out, intbuf);
