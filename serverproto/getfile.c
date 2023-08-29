@@ -5,6 +5,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #define FIRST_MSG_SZ 100
 #define SEPARATOR "-"
