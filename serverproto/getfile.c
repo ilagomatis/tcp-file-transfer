@@ -21,7 +21,7 @@ int readContent(int socket, char** packetSizes, int numPackets, char* file)
 		unsigned char* buf = (unsigned char*) malloc(sizeof(unsigned char) * bytes);
 		int valread = read(socket, buf, bytes);
 		//printf("Packet %d bytes: %d first char:%u last char:%u\n", i+1, bytes, buf[0], buf[bytes-1]);
-		printf("Bytes got: %d\n", bytes);
+		//printf("Bytes got: %d\n", bytes);
         fwrite(buf, bytes, 1, fd);
 		free(buf);
 	}
