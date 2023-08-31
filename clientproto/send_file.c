@@ -5,6 +5,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <time.h>
 
 #define FIRST_MSG_SZ 100
 #define SEPARATOR "-"
@@ -12,9 +14,13 @@
 int sendfile(char* IP, uint16_t port, char* pathtofile, int chunksize){
     int sock;
     int bytes;
+    clock_t start, end;
+    double cpu_time_used;
     
+    start = clock();
     unsigned char* content = getBinaryContent(pathtofile, &bytes);
     struct message* message = buildMessage(content, bytes, chunksize);
+    
     free(content);
     
     char* metadata = joinPacketSizes(message, SEPARATOR);
@@ -34,14 +40,23 @@ int sendfile(char* IP, uint16_t port, char* pathtofile, int chunksize){
 
     for(int i=0; i<message->size; ++i)
     {
-        send(sock, message->packets[i].data, message->packets[i].size, 0);
+        char buf = '1';
+        int status = send(sock, (unsigned char *)message->packets[i].data, message->packets[i].size, 0);
+        printf("status for %d: %d\n", i, status);
+        read(sock, &buf, 1);
         //printf("packet %d: %d bytes first char: %u last char: %u\n", i+1, message->packets[i].size, message->packets[i].data[0], message->packets[i].data[message->packets[i].size -1]);
     }
 
     // read the response
-
+    char* resp = (char*)malloc(1000);
+    read(sock, resp, 1000);
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("Time for response: %f\n", cpu_time_used);
+    printf("Response: \n%s\n", resp);
     close_connection(sock);
     freeMessage(message);
     free(firstmessage);
+    free(resp);
     return 0;
 }
