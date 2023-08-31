@@ -20,8 +20,11 @@ int readContent(int socket, char** packetSizes, int numPackets, char* file)
 		int bytes = atoi(packetSizes[i]);
 		unsigned char* buf = (unsigned char*) malloc(sizeof(unsigned char) * bytes);
 		int valread = read(socket, buf, bytes);
-		//printf("Packet %d bytes: %d first char:%u last char:%u\n", i+1, bytes, buf[0], buf[bytes-1]);
-		//printf("Bytes got: %d\n", bytes);
+        printf("valread(%d): %d\n", i, valread);
+        
+        char buff_ok;
+        send(socket, &buff_ok, 1, 0);
+        
         fwrite(buf, bytes, 1, fd);
 		free(buf);
 	}
