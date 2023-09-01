@@ -9,7 +9,7 @@
 #define PORT 8080
 #define FILENAME "../string/cat.rgb"
 #define CHUNK 1000
-#define MAXCHUNK 1000
+#define MAXCHUNK 100000
 #define IP "192.168.100.2"//"10.64.83.226"
 
 int main(int argc, char **argv)
