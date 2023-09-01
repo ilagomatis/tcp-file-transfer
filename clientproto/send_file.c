@@ -37,10 +37,19 @@ int sendfile(char* IP, uint16_t port, char* pathtofile, int chunksize){
 
     for(int i=0; i<message->size; ++i)
     {
-        char buf = '1';
         int status = send(sock, (unsigned char *)message->packets[i].data, message->packets[i].size, 0);
+
+#ifdef DEBUG1
         printf("status for %d: %d\n", i, status);
+#endif
+
+        char buf;
         read(sock, &buf, 1);
+
+#ifdef DEBUG2
+        printf("packet %d: %d bytes first char: %u last char: %u\n", i+1, message->packets[i].size, message->packets[i].data[0], message->packets[i].data[message->packets[i].size -1]);
+#endif
+
     }
 
     // read the response
@@ -48,6 +57,7 @@ int sendfile(char* IP, uint16_t port, char* pathtofile, int chunksize){
     read(sock, resp, 1000);
     end = clock();
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    //printf("Time for response: %f\n", cpu_time_used);
     printf("Response: \n%s\n", resp);
     close_connection(sock);
     freeMessage(message);
